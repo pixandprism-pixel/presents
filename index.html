@@ -23,7 +23,7 @@
 /* ============ Tokens ============ */
 :root{
   --paper:#FAFAF8; --ink:#0A0E1F; --cobalt:#2646FF; --yellow:#FFD23F; --violet:#7A5CFF;
-  --coral:#FF5A36; --teal:#0FB5A6; --amber:#F5A524;
+  --coral:#FF5A36; --coral-ink:#C93A18; --teal:#0FB5A6; --amber:#F5A524;
   --nav-h:64px;
   --pad:clamp(20px,5vw,72px);
   --max:1240px;
@@ -33,7 +33,7 @@
   padding-bottom:env(safe-area-inset-bottom,0px);
 }
 *,*::before,*::after{box-sizing:inherit}
-html{scroll-padding-top:calc(var(--nav-h) + env(safe-area-inset-top,0px) + 16px);-webkit-text-size-adjust:100%}
+html{scrollbar-color:rgba(10,14,31,.34) var(--paper);scroll-padding-top:calc(var(--nav-h) + env(safe-area-inset-top,0px) + 16px);-webkit-text-size-adjust:100%}
 body{
   margin:0;background:var(--paper);color:var(--ink);
   font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
@@ -44,9 +44,11 @@ body{
 @media (min-width:768px){body{font-size:19px}}
 h1,h2,h3,h4,p,ul,ol{margin:0}
 ul,ol{padding:0;list-style:none}
-a{color:inherit}
+a{color:inherit;text-underline-offset:.18em}
 img,svg,canvas,video{display:block;max-width:100%}
 button{font:inherit;color:inherit}
+::selection{background:var(--cobalt);color:#fff}
+.chapter[data-theme="dark"] ::selection{background:var(--yellow);color:var(--ink)}
 
 /* ============ Chapter theming ============ */
 .chapter{
@@ -66,13 +68,13 @@ button{font:inherit;color:inherit}
 /* ============ Type ============ */
 h1,h2{font-weight:800;letter-spacing:-.02em;line-height:1.05;text-wrap:balance}
 #who-h,#hl-h,#where-h,#why-h,#part-h,#proof-h,#ins-h{font-size:clamp(40px,7vw,108px);letter-spacing:-.03em;line-height:1.02;max-width:16ch}
+@media (max-width:379.98px){#who-h,#hl-h,#where-h,#why-h,#part-h,#proof-h,#ins-h{font-size:10.5vw}}
 h1{font-size:clamp(44px,6vw,72px)}
 h2{font-size:clamp(34px,4.4vw,52px);max-width:20ch}
 h3{font-size:24px;font-weight:700;letter-spacing:-.01em;line-height:1.2}
 .eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;line-height:1.4;color:var(--muted)}
 .chapter[data-theme="light"] .chapter-head .eyebrow{color:var(--cobalt)}
 .chapter-head{display:grid;gap:18px;margin-bottom:clamp(40px,6vw,72px)}
-.muted{color:var(--muted)}
 
 /* ============ Buttons ============ */
 .btn{
@@ -84,7 +86,8 @@ h3{font-size:24px;font-weight:700;letter-spacing:-.01em;line-height:1.2}
 .btn:hover{background:#1B36D6;border-color:#1B36D6}
 .btn.ghost{background:transparent;color:var(--fg);border-color:currentColor}
 .btn.ghost:hover{background:var(--fg);color:var(--bg);border-color:var(--fg)}
-.btn-sm{min-height:40px;padding:8px 18px;font-size:13px}
+.btn-sm{min-height:40px;padding:8px 18px;font-size:13px;white-space:nowrap}
+@media (max-width:379.98px){.nav-in{gap:10px}.nav .btn-sm{padding-inline:12px;font-size:12px}}
 .btn-row{display:flex;flex-wrap:wrap;gap:12px}
 :focus-visible{outline:3px solid var(--focus,#2646FF);outline-offset:3px;border-radius:6px}
 .btn:focus-visible{border-radius:999px}
@@ -101,10 +104,10 @@ h3{font-size:24px;font-weight:700;letter-spacing:-.01em;line-height:1.2}
 .nav[data-theme="dark"]{--nfg:var(--paper);--nbg:rgba(10,14,31,.72);--nline:rgba(250,250,248,.14);--focus:var(--yellow)}
 .nav-in{height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;gap:20px}
 .brand{display:flex;flex-direction:column;text-decoration:none;line-height:1.1}
-.brand-name{font-weight:800;font-size:19px;letter-spacing:-.02em}
+.brand-name{white-space:nowrap;font-weight:800;font-size:19px;letter-spacing:-.02em}
 .brand-blue{color:var(--cobalt);transition:color .3s}
 .nav[data-theme="dark"] .brand-blue{color:#6B82FF}
-.brand-slogan{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;opacity:.72;margin-top:3px}
+.brand-slogan{white-space:nowrap;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;opacity:.72;margin-top:3px}
 .nav-right{display:flex;align-items:center;gap:8px}
 .nav-links{display:none;align-items:center;gap:4px}
 .nav-links a{padding:10px 14px;font-size:15px;font-weight:500;text-decoration:none;border-radius:999px;opacity:.86}
@@ -211,7 +214,7 @@ h3{font-size:24px;font-weight:700;letter-spacing:-.01em;line-height:1.2}
   padding:26px;border:0;border-radius:var(--r-lg);background:var(--tile);color:var(--fg);font:inherit;cursor:pointer;
   transition:background-color .25s;
 }
-.hl-card .num{font-size:clamp(44px,4.2vw,60px);font-weight:300;letter-spacing:-.03em;line-height:1;color:var(--muted)}
+.hl-card .num{font-variant-numeric:tabular-nums;font-size:clamp(44px,4.2vw,60px);font-weight:300;letter-spacing:-.03em;line-height:1;color:var(--muted)}
 .hl-card .top{display:flex;align-items:center;justify-content:space-between;gap:14px}
 .hl-card .name{font-size:20px;font-weight:700;letter-spacing:-.015em;line-height:1.2}
 .hl-card .learn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;margin-top:8px;padding:9px 14px;text-align:center;line-height:1.25;border-radius:999px;background:var(--cobalt);color:#fff;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;transition:background-color .2s}
@@ -287,13 +290,9 @@ dialog.sheet::backdrop{background:rgba(10,14,31,.55)}
 .sheet-count{font-size:clamp(17px,1.5vw,20px);font-weight:800;letter-spacing:-.01em;color:var(--cobalt)}
 .sheet-num{font-weight:400;font-variant-numeric:tabular-nums;white-space:nowrap}
 .sheet-actions{display:flex;gap:10px}
-.round{width:48px;height:48px;border-radius:50%;border:0;background:var(--tile);color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:background-color .2s,color .2s}
-.round:hover{background:var(--ink);color:var(--paper)}
-.round:focus-visible{border-radius:50%}
-.round svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .cat{display:grid;gap:clamp(32px,4.4vw,60px);padding-block:clamp(40px,6vw,88px) clamp(72px,9vw,128px)}
 .cat[hidden]{display:none}
-.cat-head .num{font-size:clamp(56px,7vw,96px);font-weight:300;letter-spacing:-.03em;line-height:1;color:var(--muted)}
+.cat-head .num{font-variant-numeric:tabular-nums;font-size:clamp(56px,7vw,96px);font-weight:300;letter-spacing:-.03em;line-height:1;color:var(--muted)}
 .cat-head h2{max-width:20ch;margin-top:14px;font-size:clamp(40px,6vw,72px);letter-spacing:-.025em;line-height:1.05}
 .cat-lead{font-size:clamp(26px,3vw,40px);font-weight:800;letter-spacing:-.02em;line-height:1.1}
 .cat-problem p + p{margin-top:16px;font-size:clamp(19px,1.7vw,23px);line-height:1.5}
@@ -310,13 +309,13 @@ dialog.sheet::backdrop{background:rgba(10,14,31,.55)}
   @keyframes pibar{from{transform:scaleY(.45)}to{transform:scaleY(1)}}
   @keyframes pihand{to{transform:rotate(360deg)}}
 }
-.pain-card h4{margin:0;font-size:24px;font-weight:800;letter-spacing:-.015em;line-height:1.15}
+.pain-card h3{margin:0;font-size:24px;font-weight:800;letter-spacing:-.015em;line-height:1.15}
 .pain-card p{font-size:16px;line-height:1.55;color:rgba(250,250,248,.76)}
 .cat-position{background:var(--cobalt);color:#fff;border-radius:var(--r-lg);padding:clamp(28px,4vw,60px)}
 .cat-position p + p{margin-top:16px;max-width:none;font-size:clamp(18px,1.5vw,21px);color:rgba(255,255,255,.94)}
 .cat-handle .cat-lead{margin-bottom:clamp(18px,2.2vw,28px)}
 .tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.tiles li{display:flex;align-items:center;gap:12px;min-height:64px;padding:12px 16px;border:1px solid var(--line);border-left:3px solid var(--cobalt);border-radius:var(--r-sm);font-size:15px;font-weight:600;line-height:1.3}
+.tiles li{display:flex;align-items:center;gap:12px;min-height:64px;padding:12px 16px;border:1px solid var(--line);border-radius:var(--r-sm);font-size:15px;font-weight:600;line-height:1.3}
 .tiles li::before{content:"";flex:none;width:18px;height:18px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18' fill='none' stroke='%232646FF' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 9h14M11 4l5 5-5 5'/%3E%3C/svg%3E") center/contain no-repeat}
 .cat-cta{display:flex;flex-wrap:wrap;gap:12px}
 .next-pill{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:8px 20px;border-radius:999px;border:1.5px solid var(--ink);background:none;color:var(--ink);font:inherit;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background-color .2s,color .2s}
@@ -324,16 +323,18 @@ dialog.sheet::backdrop{background:rgba(10,14,31,.55)}
 .next-pill:focus-visible{border-radius:999px}
 .next-pill svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}
 .next-pill:hover svg{transform:translateX(4px)}
-.sheet-count .lg{display:none}
+.sheet-bar .lg{display:none}
+.next-pill,.close-pill{white-space:nowrap}
 .np-n{font-variant-numeric:tabular-nums}
-.close-pill{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:8px 8px 8px 22px;border-radius:999px;border:1.5px solid var(--coral);background:none;color:var(--coral);font:inherit;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background-color .2s,color .2s}
-.close-pill .x{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--coral);color:#fff}
+.close-pill{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:8px 8px 8px 22px;border-radius:999px;border:1.5px solid var(--coral-ink);background:none;color:var(--coral-ink);font:inherit;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background-color .2s,color .2s}
+.close-pill .x{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--coral-ink);color:#fff}
 .close-pill .x svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round}
-.close-pill:hover{background:var(--coral);color:#fff}
-.close-pill:hover .x{background:#fff;color:var(--coral)}
+.close-pill:hover{background:var(--coral-ink);color:#fff}
+.close-pill:hover .x{background:#fff;color:var(--coral-ink)}
 .close-pill:focus-visible,.next-pill:focus-visible{border-radius:999px}
-@media (max-width:767.98px){.round.prev{display:none}.next-pill{padding-inline:14px;font-size:12px}}
-@media (min-width:768px){.sheet-count .lg{display:inline}}
+@media (max-width:767.98px){.next-pill{padding-inline:14px;font-size:12px}.sheet-bar .close-pill{padding:7px}}
+@media (min-width:768px){.sheet-bar .lg{display:inline}}
+@media (max-width:519.98px){.tiles{grid-template-columns:1fr}.tiles li{min-height:52px}}
 @media (min-width:768px){
   .pain{grid-template-columns:repeat(3,1fr);gap:16px}
   .tiles{grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(4,auto);grid-auto-flow:column;gap:10px}
@@ -342,20 +343,13 @@ dialog.sheet::backdrop{background:rgba(10,14,31,.55)}
 @media (min-width:1200px){.tiles{grid-template-columns:repeat(4,1fr);grid-template-rows:none;grid-auto-flow:row}}
 
 /* ============ Who We Are ============ */
-.who-grid{display:grid;gap:12px}
-.who-card{background:var(--tile);border-radius:var(--r-md);padding:28px;font-size:clamp(19px,1.7vw,22px);line-height:1.35;font-weight:500;color:var(--muted)}
-.who-card strong{display:block;color:var(--fg);font-weight:700;letter-spacing:-.01em;margin-bottom:4px}
-.who-card::before{content:"";display:block;width:28px;height:3px;border-radius:3px;background:var(--violet);margin-bottom:22px}
-@media (min-width:768px){
-  .who-grid{grid-template-columns:1fr 1fr;grid-template-rows:repeat(4,auto);grid-auto-flow:column;gap:16px}
-  .who-card{padding:36px}
-}
 
 /* ============ Where You Are Today ============ */
 .pills{display:inline-flex;gap:4px;padding:5px;border-radius:999px;background:var(--tile);margin-bottom:clamp(28px,4vw,48px)}
 .pill{min-height:44px;padding:8px 24px;border:0;border-radius:999px;background:none;font-size:17px;font-weight:600;cursor:pointer;transition:background-color .25s,color .25s}
 .pill[aria-selected="true"]{background:var(--ink);color:var(--paper)}
 .pill:focus-visible{border-radius:999px}
+@media (max-width:379.98px){.pill{padding-inline:16px}}
 .panel{display:grid;gap:clamp(28px,4vw,64px);align-items:center}
 .panel[hidden]{display:none}
 .panel-art{aspect-ratio:4/3;border-radius:var(--r-lg);background:var(--tile);display:grid;place-items:center;overflow:hidden}
@@ -492,14 +486,12 @@ dialog.sheet::backdrop{background:rgba(10,14,31,.55)}
 .sb-stage{position:relative;display:grid;place-items:center;border:1.5px dashed rgba(10,14,31,.38);border-radius:14px;overflow:hidden}
 .sb-scene{display:grid;gap:clamp(8px,1.4vw,18px);justify-items:center;text-align:center;padding:clamp(12px,3vw,48px)}
 .sb-scene[hidden]{display:none}
-.sb-kicker{font-size:clamp(12px,1.3vw,18px);font-weight:600;letter-spacing:.04em;color:rgba(10,14,31,.72)}
 .sb-text{font-size:clamp(20px,4vw,60px);font-weight:800;letter-spacing:-.025em;line-height:1.08;max-width:19ch;text-wrap:balance}
 .sb-big{display:block;font-size:1.7em;letter-spacing:-.035em;line-height:1}
 .sb-sub{display:block;margin-top:.35em;font-size:.62em;font-weight:600;letter-spacing:0}
 .has-list .sb-text{font-size:clamp(17px,3.1vw,46px);max-width:24ch}
 .sb-list{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(5px,.8vw,12px);margin:clamp(4px,1vw,14px) 0 0;padding:0;list-style:none;max-width:60em}
 .sb-list li{padding:clamp(4px,.6vw,9px) clamp(9px,1.3vw,20px);border:1.5px solid rgba(10,14,31,.5);border-radius:999px;font-size:clamp(11px,1.35vw,19px);font-weight:600;line-height:1.25}
-.sb-text .prev{color:rgba(10,14,31,.42)}
 .sb-ctrl{display:flex;gap:8px;flex:none}
 .sb-btn{width:40px;height:40px;border-radius:50%;border:0;background:rgba(10,14,31,.12);color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:background-color .2s}
 .sb-btn:hover{background:rgba(10,14,31,.22)}
@@ -512,7 +504,7 @@ dialog.sheet::backdrop{background:rgba(10,14,31,.55)}
 .sb-seg i{display:block;height:100%;width:0;background:var(--ink)}
 @media (min-width:768px){.sb-note{display:inline}}
 @media (prefers-reduced-motion:no-preference){
-  .sb-scene:not([hidden]) .sb-text,.sb-scene:not([hidden]) .sb-kicker{animation:sbin .5s cubic-bezier(.2,.7,.2,1) both}
+  .sb-scene:not([hidden]) .sb-text{animation:sbin .5s cubic-bezier(.2,.7,.2,1) both}
   .sb-scene:not([hidden]) .sb-list li{animation:sbin .5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(1.2s + var(--n) * .7s)}
   .sb-list li:nth-child(1){--n:0}.sb-list li:nth-child(2){--n:1}.sb-list li:nth-child(3){--n:2}.sb-list li:nth-child(4){--n:3}.sb-list li:nth-child(5){--n:4}
   @keyframes sbin{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
@@ -526,9 +518,7 @@ dialog.sheet::backdrop{background:rgba(10,14,31,.55)}
 .where.is-pinned .panel h3{margin-bottom:16px}
 .where.is-pinned .panel-rows p{padding:13px 0}
 
-/* who we are: sticky headline, statements light up as they pass the middle of the screen */
-.who-layout{display:grid;gap:clamp(24px,4vw,48px)}
-.who-layout .chapter-head{margin-bottom:0}
+/* who we are: statement cards */
 .who-list{display:grid;margin-top:clamp(40px,5vw,64px)}
 .ww-cards{display:grid;gap:clamp(12px,1.4vw,18px)}
 @media (min-width:768px){.ww-cards{grid-template-columns:1fr 1fr}}
@@ -540,13 +530,8 @@ dialog.sheet::backdrop{background:rgba(10,14,31,.55)}
 .who-item:nth-child(4n+3)::before{background:var(--amber)}
 .who-item:nth-child(4n)::before{background:var(--coral)}
 
-@media (min-width:1024px){
-  .who-layout{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(48px,6vw,96px);align-items:start}
-  .who-side h2{font-size:clamp(30px,3.2vw,44px);max-width:none}
-  .who-side{position:sticky;top:calc(var(--nav-h) + 72px)}
-}
-
 .nb{white-space:nowrap}
+@media (max-width:479.98px){#where-h .nb{white-space:normal}}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .skip{position:absolute;left:12px;top:-60px;z-index:60;background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:999px;text-decoration:none;font-size:15px;font-weight:600}
 .skip:focus{top:calc(10px + env(safe-area-inset-top,0px))}
@@ -973,10 +958,10 @@ dialog.sheet::backdrop{background:rgba(10,14,31,.55)}
 <dialog class="sheet" aria-label="Service category details">
   <div class="sheet-in">
     <div class="sheet-bar"><div class="wrap sheet-bar-in">
-      <span class="sheet-count" aria-live="polite">Our Services <span class="sheet-num"><span class="n">01</span> of 05</span></span>
+      <span class="sheet-count" aria-live="polite"><span class="lg">Our Services </span><span class="sheet-num"><span class="n">01</span> of 05</span></span>
       <div class="sheet-actions">
-        <button class="next-pill" type="button" data-sheet="next">See Next Service <span class="np-n">02</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></button>
-        <button class="close-pill" type="button" data-sheet="close">Close This Screen <span class="x" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></span></button>
+        <button class="next-pill" type="button" data-sheet="next"><span><span class="lg">See </span>Next<span class="lg"> Service</span></span> <span class="np-n">02</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></button>
+        <button class="close-pill" type="button" data-sheet="close" aria-label="Close this screen"><span class="lg">Close This Screen</span> <span class="x" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></span></button>
       </div>
     </div></div>
     <div class="wrap">
@@ -984,9 +969,9 @@ dialog.sheet::backdrop{background:rgba(10,14,31,.55)}
         <header class="cat-head"><p class="num">01</p><h2 id="cat-h-01">Branding, Creative, Content, Design, Video, and Web Development</h2></header>
         <div class="cat-problem"><p class="cat-lead">Here’s the problem.</p><p>The market only sees what you show them. Generic work. A dated site. A story that hasn’t caught up to who you’ve become. Any one of those signals, and you’ve got a problem.</p></div>
         <div class="pain">
-        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="17" cy="37" rx="12" ry="5"/><path d="M5 37v-7c0 2.8 5.4 5 12 5s12-2.2 12-5v7"/><path d="M5 30v-7c0 2.8 5.4 5 12 5s12-2.2 12-5v7"/><ellipse cx="17" cy="23" rx="12" ry="5"/><g class="pi-up"><path d="M39 32V9"/><path d="M33 15l6-6 6 6"/></g></svg><h4>Paying Too Much</h4><p>Retainers priced for how long it used to take. Every round billed like it’s new work. Design that ages out inside a year. Rework charged like a rebuild.</p></div>
-        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><rect class="dash" x="5" y="6" width="10" height="36" rx="2.5"/><rect class="dash" x="19" y="6" width="10" height="36" rx="2.5"/><rect class="dash" x="33" y="6" width="10" height="36" rx="2.5"/><rect class="fc pi-bar" x="5" y="33" width="10" height="9" rx="2.5"/><rect class="fc pi-bar" style="--d:.5s" x="19" y="36" width="10" height="6" rx="2.5"/><rect class="fc pi-bar" style="--d:1s" x="33" y="30" width="10" height="12" rx="2.5"/></svg><h4>Getting Too Little</h4><p>A brand that could belong to any competitor in your category. Content that fills a calendar but nobody reads. A site that answers questions your buyer never asked.</p></div>
-        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="18"/><path d="M24 9v3M24 36v3M9 24h3M36 24h3"/><path d="M24 24V14"/><g class="pi-hand"><path d="M24 24l9 6"/></g><circle class="fc" cx="24" cy="24" r="2"/></svg><h4>Waiting Too Long</h4><p>Six weeks to a first draft. Six months to a new site. Another quarter for the launch campaign. By the time it ships, the market has already moved on.</p></div>
+        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="17" cy="37" rx="12" ry="5"/><path d="M5 37v-7c0 2.8 5.4 5 12 5s12-2.2 12-5v7"/><path d="M5 30v-7c0 2.8 5.4 5 12 5s12-2.2 12-5v7"/><ellipse cx="17" cy="23" rx="12" ry="5"/><g class="pi-up"><path d="M39 32V9"/><path d="M33 15l6-6 6 6"/></g></svg><h3>Paying Too Much</h3><p>Retainers priced for how long it used to take. Every round billed like it’s new work. Design that ages out inside a year. Rework charged like a rebuild.</p></div>
+        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><rect class="dash" x="5" y="6" width="10" height="36" rx="2.5"/><rect class="dash" x="19" y="6" width="10" height="36" rx="2.5"/><rect class="dash" x="33" y="6" width="10" height="36" rx="2.5"/><rect class="fc pi-bar" x="5" y="33" width="10" height="9" rx="2.5"/><rect class="fc pi-bar" style="--d:.5s" x="19" y="36" width="10" height="6" rx="2.5"/><rect class="fc pi-bar" style="--d:1s" x="33" y="30" width="10" height="12" rx="2.5"/></svg><h3>Getting Too Little</h3><p>A brand that could belong to any competitor in your category. Content that fills a calendar but nobody reads. A site that answers questions your buyer never asked.</p></div>
+        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="18"/><path d="M24 9v3M24 36v3M9 24h3M36 24h3"/><path d="M24 24V14"/><g class="pi-hand"><path d="M24 24l9 6"/></g><circle class="fc" cx="24" cy="24" r="2"/></svg><h3>Waiting Too Long</h3><p>Six weeks to a first draft. Six months to a new site. Another quarter for the launch campaign. By the time it ships, the market has already moved on.</p></div>
         </div>
         <div class="cat-position"><p class="cat-lead">We’re everything a branding firm isn’t.</p><p>A branding firm hands you a logo, a style guide, and a bill for every hour they worked trying to figure out your brand. Yes, we can build your brand, but we go beyond that and think more holistically about how your brand can strategically bring you the buyers. That’s the difference between a branding firm and a strategic partner.</p></div>
         <div class="cat-handle"><h3 class="cat-lead">What We Handle</h3>
@@ -1010,9 +995,9 @@ dialog.sheet::backdrop{background:rgba(10,14,31,.55)}
         <header class="cat-head"><p class="num">02</p><h2 id="cat-h-02">Advertising, Marketing, and <span class="nb">Go-to-Market</span> Strategies</h2></header>
         <div class="cat-problem"><p class="cat-lead">Here’s the problem.</p><p>Every marketing budget from $5,000 a month to $500,000 has the same broken math. Money goes out. Results don’t come back. Same problem at any scale.</p></div>
         <div class="pain">
-        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="17" cy="37" rx="12" ry="5"/><path d="M5 37v-7c0 2.8 5.4 5 12 5s12-2.2 12-5v7"/><path d="M5 30v-7c0 2.8 5.4 5 12 5s12-2.2 12-5v7"/><ellipse cx="17" cy="23" rx="12" ry="5"/><g class="pi-up"><path d="M39 32V9"/><path d="M33 15l6-6 6 6"/></g></svg><h4>Paying Too Much</h4><p>Retainers for hours. Hours for meetings. Meetings about meetings. Reports about activity, never results.</p></div>
-        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><rect class="dash" x="5" y="6" width="10" height="36" rx="2.5"/><rect class="dash" x="19" y="6" width="10" height="36" rx="2.5"/><rect class="dash" x="33" y="6" width="10" height="36" rx="2.5"/><rect class="fc pi-bar" x="5" y="33" width="10" height="9" rx="2.5"/><rect class="fc pi-bar" style="--d:.5s" x="19" y="36" width="10" height="6" rx="2.5"/><rect class="fc pi-bar" style="--d:1s" x="33" y="30" width="10" height="12" rx="2.5"/></svg><h4>Getting Too Little</h4><p>Content nobody reads. Campaigns that look busy. Leads that never close. Messaging your sales team can’t sell with.</p></div>
-        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="18"/><path d="M24 9v3M24 36v3M9 24h3M36 24h3"/><path d="M24 24V14"/><g class="pi-hand"><path d="M24 24l9 6"/></g><circle class="fc" cx="24" cy="24" r="2"/></svg><h4>Waiting Too Long</h4><p>Months of onboarding. Months of strategy decks. By the time anything ships, the quarter you needed to save is already gone.</p></div>
+        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="17" cy="37" rx="12" ry="5"/><path d="M5 37v-7c0 2.8 5.4 5 12 5s12-2.2 12-5v7"/><path d="M5 30v-7c0 2.8 5.4 5 12 5s12-2.2 12-5v7"/><ellipse cx="17" cy="23" rx="12" ry="5"/><g class="pi-up"><path d="M39 32V9"/><path d="M33 15l6-6 6 6"/></g></svg><h3>Paying Too Much</h3><p>Retainers for hours. Hours for meetings. Meetings about meetings. Reports about activity, never results.</p></div>
+        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><rect class="dash" x="5" y="6" width="10" height="36" rx="2.5"/><rect class="dash" x="19" y="6" width="10" height="36" rx="2.5"/><rect class="dash" x="33" y="6" width="10" height="36" rx="2.5"/><rect class="fc pi-bar" x="5" y="33" width="10" height="9" rx="2.5"/><rect class="fc pi-bar" style="--d:.5s" x="19" y="36" width="10" height="6" rx="2.5"/><rect class="fc pi-bar" style="--d:1s" x="33" y="30" width="10" height="12" rx="2.5"/></svg><h3>Getting Too Little</h3><p>Content nobody reads. Campaigns that look busy. Leads that never close. Messaging your sales team can’t sell with.</p></div>
+        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="18"/><path d="M24 9v3M24 36v3M9 24h3M36 24h3"/><path d="M24 24V14"/><g class="pi-hand"><path d="M24 24l9 6"/></g><circle class="fc" cx="24" cy="24" r="2"/></svg><h3>Waiting Too Long</h3><p>Months of onboarding. Months of strategy decks. By the time anything ships, the quarter you needed to save is already gone.</p></div>
         </div>
         <div class="cat-position"><p class="cat-lead">We’re everything a marketing firm isn’t.</p><p>We’re focused on your growth, not the hours we bill. That’s why our pricing model works the way it does. A minimal retainer to keep the lights on, and everything else earned on the results we produce. Marketing firms get paid whether you succeed or not. We only get paid when we deliver results.</p></div>
         <div class="cat-handle"><h3 class="cat-lead">What We Handle</h3>
@@ -1036,9 +1021,9 @@ dialog.sheet::backdrop{background:rgba(10,14,31,.55)}
         <header class="cat-head"><p class="num">03</p><h2 id="cat-h-03">Technology, AI, Data Systems, CRM, and Sales Pipeline Automation</h2></header>
         <div class="cat-problem"><p class="cat-lead">Here’s the problem.</p><p>Every leader knows AI is going to change how the work gets done. Almost none have the team, the stack, or the process in place to actually run it. If your AI adoption today is ChatGPT and a Slack channel where employees trade prompts, you have a problem.</p></div>
         <div class="pain">
-        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="17" cy="37" rx="12" ry="5"/><path d="M5 37v-7c0 2.8 5.4 5 12 5s12-2.2 12-5v7"/><path d="M5 30v-7c0 2.8 5.4 5 12 5s12-2.2 12-5v7"/><ellipse cx="17" cy="23" rx="12" ry="5"/><g class="pi-up"><path d="M39 32V9"/><path d="M33 15l6-6 6 6"/></g></svg><h4>Paying Too Much</h4><p>Six-figure platform contracts nobody uses. Consultants billing by the hour to explain what you already bought. Stacks of tools that don’t talk to each other.</p></div>
-        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><rect class="dash" x="5" y="6" width="10" height="36" rx="2.5"/><rect class="dash" x="19" y="6" width="10" height="36" rx="2.5"/><rect class="dash" x="33" y="6" width="10" height="36" rx="2.5"/><rect class="fc pi-bar" x="5" y="33" width="10" height="9" rx="2.5"/><rect class="fc pi-bar" style="--d:.5s" x="19" y="36" width="10" height="6" rx="2.5"/><rect class="fc pi-bar" style="--d:1s" x="33" y="30" width="10" height="12" rx="2.5"/></svg><h4>Getting Too Little</h4><p>AI experiments that never make it to production. Automations that break every quarter. Data in three systems that all disagree with each other. Reports nobody trusts.</p></div>
-        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="18"/><path d="M24 9v3M24 36v3M9 24h3M36 24h3"/><path d="M24 24V14"/><g class="pi-hand"><path d="M24 24l9 6"/></g><circle class="fc" cx="24" cy="24" r="2"/></svg><h4>Waiting Too Long</h4><p>A twelve-month roadmap for a market that shifts in three. Your competitor ships this quarter. Yours is still in RFP. By launch, the moment passed.</p></div>
+        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="17" cy="37" rx="12" ry="5"/><path d="M5 37v-7c0 2.8 5.4 5 12 5s12-2.2 12-5v7"/><path d="M5 30v-7c0 2.8 5.4 5 12 5s12-2.2 12-5v7"/><ellipse cx="17" cy="23" rx="12" ry="5"/><g class="pi-up"><path d="M39 32V9"/><path d="M33 15l6-6 6 6"/></g></svg><h3>Paying Too Much</h3><p>Six-figure platform contracts nobody uses. Consultants billing by the hour to explain what you already bought. Stacks of tools that don’t talk to each other.</p></div>
+        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><rect class="dash" x="5" y="6" width="10" height="36" rx="2.5"/><rect class="dash" x="19" y="6" width="10" height="36" rx="2.5"/><rect class="dash" x="33" y="6" width="10" height="36" rx="2.5"/><rect class="fc pi-bar" x="5" y="33" width="10" height="9" rx="2.5"/><rect class="fc pi-bar" style="--d:.5s" x="19" y="36" width="10" height="6" rx="2.5"/><rect class="fc pi-bar" style="--d:1s" x="33" y="30" width="10" height="12" rx="2.5"/></svg><h3>Getting Too Little</h3><p>AI experiments that never make it to production. Automations that break every quarter. Data in three systems that all disagree with each other. Reports nobody trusts.</p></div>
+        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="18"/><path d="M24 9v3M24 36v3M9 24h3M36 24h3"/><path d="M24 24V14"/><g class="pi-hand"><path d="M24 24l9 6"/></g><circle class="fc" cx="24" cy="24" r="2"/></svg><h3>Waiting Too Long</h3><p>A twelve-month roadmap for a market that shifts in three. Your competitor ships this quarter. Yours is still in RFP. By launch, the moment passed.</p></div>
         </div>
         <div class="cat-position"><p class="cat-lead">We’re everything an IT and tech consultant isn’t.</p><p>Consultants bill you by the hour. We build the systems that actually run your revops. We deliver automation platforms using the power of AI. We build your sales pipeline delivery without the complexity of another expensive platform and staff to run it.</p></div>
         <div class="cat-handle"><h3 class="cat-lead">What We Handle</h3>
@@ -1062,9 +1047,9 @@ dialog.sheet::backdrop{background:rgba(10,14,31,.55)}
         <header class="cat-head"><p class="num">04</p><h2 id="cat-h-04">Lead Generation, Sales Funnels, Paid Media, and Public Relations</h2></header>
         <div class="cat-problem"><p class="cat-lead">Here’s the problem.</p><p>Every board asks the same question at the same time each quarter. Where’s the pipeline? If your marketing team can’t answer that, or if your agency reports impressions instead of qualified leads, you have a bigger problem than the pipeline itself.</p></div>
         <div class="pain">
-        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="17" cy="37" rx="12" ry="5"/><path d="M5 37v-7c0 2.8 5.4 5 12 5s12-2.2 12-5v7"/><path d="M5 30v-7c0 2.8 5.4 5 12 5s12-2.2 12-5v7"/><ellipse cx="17" cy="23" rx="12" ry="5"/><g class="pi-up"><path d="M39 32V9"/><path d="M33 15l6-6 6 6"/></g></svg><h4>Paying Too Much</h4><p>Media budgets climbing every quarter. Cost per lead climbing faster. Outbound retainers that open zero conversations. Reports that celebrate spend, not return.</p></div>
-        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><rect class="dash" x="5" y="6" width="10" height="36" rx="2.5"/><rect class="dash" x="19" y="6" width="10" height="36" rx="2.5"/><rect class="dash" x="33" y="6" width="10" height="36" rx="2.5"/><rect class="fc pi-bar" x="5" y="33" width="10" height="9" rx="2.5"/><rect class="fc pi-bar" style="--d:.5s" x="19" y="36" width="10" height="6" rx="2.5"/><rect class="fc pi-bar" style="--d:1s" x="33" y="30" width="10" height="12" rx="2.5"/></svg><h4>Getting Too Little</h4><p>Impressions instead of a funnel. Clicks instead of conversations. Activity dashboards that never translate to sales. Nothing your CFO can trace to revenue.</p></div>
-        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="18"/><path d="M24 9v3M24 36v3M9 24h3M36 24h3"/><path d="M24 24V14"/><g class="pi-hand"><path d="M24 24l9 6"/></g><circle class="fc" cx="24" cy="24" r="2"/></svg><h4>Waiting Too Long</h4><p>Quarter ends with no pipeline attributable to marketing. Sales blames marketing. Marketing blames sales. The number gets missed. Again.</p></div>
+        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="17" cy="37" rx="12" ry="5"/><path d="M5 37v-7c0 2.8 5.4 5 12 5s12-2.2 12-5v7"/><path d="M5 30v-7c0 2.8 5.4 5 12 5s12-2.2 12-5v7"/><ellipse cx="17" cy="23" rx="12" ry="5"/><g class="pi-up"><path d="M39 32V9"/><path d="M33 15l6-6 6 6"/></g></svg><h3>Paying Too Much</h3><p>Media budgets climbing every quarter. Cost per lead climbing faster. Outbound retainers that open zero conversations. Reports that celebrate spend, not return.</p></div>
+        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><rect class="dash" x="5" y="6" width="10" height="36" rx="2.5"/><rect class="dash" x="19" y="6" width="10" height="36" rx="2.5"/><rect class="dash" x="33" y="6" width="10" height="36" rx="2.5"/><rect class="fc pi-bar" x="5" y="33" width="10" height="9" rx="2.5"/><rect class="fc pi-bar" style="--d:.5s" x="19" y="36" width="10" height="6" rx="2.5"/><rect class="fc pi-bar" style="--d:1s" x="33" y="30" width="10" height="12" rx="2.5"/></svg><h3>Getting Too Little</h3><p>Impressions instead of a funnel. Clicks instead of conversations. Activity dashboards that never translate to sales. Nothing your CFO can trace to revenue.</p></div>
+        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="18"/><path d="M24 9v3M24 36v3M9 24h3M36 24h3"/><path d="M24 24V14"/><g class="pi-hand"><path d="M24 24l9 6"/></g><circle class="fc" cx="24" cy="24" r="2"/></svg><h3>Waiting Too Long</h3><p>Quarter ends with no pipeline attributable to marketing. Sales blames marketing. Marketing blames sales. The number gets missed. Again.</p></div>
         </div>
         <div class="cat-position"><p class="cat-lead">We’re everything a lead generation company isn’t.</p><p>Lead gen shops sell you names and hand you the invoice. We build the full funnel behind the leads. Outreach, media, sales enablement, and the reporting to prove what worked. We earn on what you actually close. Different incentive. Different outcome.</p></div>
         <div class="cat-handle"><h3 class="cat-lead">What We Handle</h3>
@@ -1088,9 +1073,9 @@ dialog.sheet::backdrop{background:rgba(10,14,31,.55)}
         <header class="cat-head"><p class="num">05</p><h2 id="cat-h-05">Mergers and Acquisitions (M&amp;A), Succession Plans, and Exit Plans</h2></header>
         <div class="cat-problem"><p class="cat-lead">Here’s the problem.</p><p>Every founder eventually asks the same question. What is this actually worth to a buyer? If nobody on your team has sat on the sell side of that table, the answer usually comes back lower than it should.</p></div>
         <div class="pain">
-        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="17" cy="37" rx="12" ry="5"/><path d="M5 37v-7c0 2.8 5.4 5 12 5s12-2.2 12-5v7"/><path d="M5 30v-7c0 2.8 5.4 5 12 5s12-2.2 12-5v7"/><ellipse cx="17" cy="23" rx="12" ry="5"/><g class="pi-up"><path d="M39 32V9"/><path d="M33 15l6-6 6 6"/></g></svg><h4>Paying Too Much</h4><p>Bankers who take a percentage of a number they didn’t help build. Advisors who show up to close and leave at the wire.</p></div>
-        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><rect class="dash" x="5" y="6" width="10" height="36" rx="2.5"/><rect class="dash" x="19" y="6" width="10" height="36" rx="2.5"/><rect class="dash" x="33" y="6" width="10" height="36" rx="2.5"/><rect class="fc pi-bar" x="5" y="33" width="10" height="9" rx="2.5"/><rect class="fc pi-bar" style="--d:.5s" x="19" y="36" width="10" height="6" rx="2.5"/><rect class="fc pi-bar" style="--d:1s" x="33" y="30" width="10" height="12" rx="2.5"/></svg><h4>Getting Too Little</h4><p>A valuation that doesn’t reflect what you built. A pitch built on revenue, not story. A buyer who negotiates you down.</p></div>
-        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="18"/><path d="M24 9v3M24 36v3M9 24h3M36 24h3"/><path d="M24 24V14"/><g class="pi-hand"><path d="M24 24l9 6"/></g><circle class="fc" cx="24" cy="24" r="2"/></svg><h4>Waiting Too Long</h4><p>A year of "we should get ready." No readiness. A succession plan that becomes a scramble. A deal that closes short.</p></div>
+        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="17" cy="37" rx="12" ry="5"/><path d="M5 37v-7c0 2.8 5.4 5 12 5s12-2.2 12-5v7"/><path d="M5 30v-7c0 2.8 5.4 5 12 5s12-2.2 12-5v7"/><ellipse cx="17" cy="23" rx="12" ry="5"/><g class="pi-up"><path d="M39 32V9"/><path d="M33 15l6-6 6 6"/></g></svg><h3>Paying Too Much</h3><p>Bankers who take a percentage of a number they didn’t help build. Advisors who show up to close and leave at the wire.</p></div>
+        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><rect class="dash" x="5" y="6" width="10" height="36" rx="2.5"/><rect class="dash" x="19" y="6" width="10" height="36" rx="2.5"/><rect class="dash" x="33" y="6" width="10" height="36" rx="2.5"/><rect class="fc pi-bar" x="5" y="33" width="10" height="9" rx="2.5"/><rect class="fc pi-bar" style="--d:.5s" x="19" y="36" width="10" height="6" rx="2.5"/><rect class="fc pi-bar" style="--d:1s" x="33" y="30" width="10" height="12" rx="2.5"/></svg><h3>Getting Too Little</h3><p>A valuation that doesn’t reflect what you built. A pitch built on revenue, not story. A buyer who negotiates you down.</p></div>
+        <div class="pain-card"><svg class="pain-ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="18"/><path d="M24 9v3M24 36v3M9 24h3M36 24h3"/><path d="M24 24V14"/><g class="pi-hand"><path d="M24 24l9 6"/></g><circle class="fc" cx="24" cy="24" r="2"/></svg><h3>Waiting Too Long</h3><p>A year of "we should get ready." No readiness. A succession plan that becomes a scramble. A deal that closes short.</p></div>
         </div>
         <div class="cat-position"><p class="cat-lead">M&amp;A is our home turf.</p><p>Our senior team has led acquisitions, exits, and successions from the inside. We know the process from every seat at the table. We help owners get ready to sell, position for the right buyers, and consult through the entire deal, from readiness through close.</p></div>
         <div class="cat-handle"><h3 class="cat-lead">What We Handle</h3>
@@ -1513,13 +1498,6 @@ document.addEventListener('DOMContentLoaded', function () {
       onLeaveBack: function () { setTheme((chapters[i - 1] || ch).dataset.theme); }
     });
   });
-
-  /* Who we are: each statement lights up as it crosses the middle of the screen. */
-  var wl = $('.who-list');
-  if (wl) {
-    wl.classList.add('spot');
-    $$('.who-item', wl).forEach(function (it) { ScrollTrigger.create({ trigger: it, start: 'top 64%', end: 'bottom 40%', toggleClass: { targets: it, className: 'on' } }); });
-  }
 
   /* Headline and card reveals. */
   var rv = reduce ? { autoAlpha: 0, duration: 0.2 } : { autoAlpha: 0, y: 24, duration: 0.6, ease: 'power2.out' };
